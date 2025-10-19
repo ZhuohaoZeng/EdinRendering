@@ -1,0 +1,3 @@
+D:/Edin/rendering/build/CMakeFiles/main.dir
+D:/Edin/rendering/build/CMakeFiles/edit_cache.dir
+D:/Edin/rendering/build/CMakeFiles/rebuild_cache.dir

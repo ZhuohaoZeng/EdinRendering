@@ -1,0 +1,20 @@
+[
+{
+  "directory": "D:/Edin/rendering/build",
+  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe  @CMakeFiles/main.dir/includes_CXX.rsp -g -std=c++17 -Wall -Wextra -Wpedantic -O2 -o CMakeFiles\\main.dir\\main.cpp.obj -c D:\\Edin\\rendering\\main.cpp",
+  "file": "D:/Edin/rendering/main.cpp",
+  "output": "CMakeFiles/main.dir/main.cpp.obj"
+},
+{
+  "directory": "D:/Edin/rendering/build",
+  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe  @CMakeFiles/main.dir/includes_CXX.rsp -g -std=c++17 -Wall -Wextra -Wpedantic -O2 -o CMakeFiles\\main.dir\\JSONReader.cpp.obj -c D:\\Edin\\rendering\\JSONReader.cpp",
+  "file": "D:/Edin/rendering/JSONReader.cpp",
+  "output": "CMakeFiles/main.dir/JSONReader.cpp.obj"
+},
+{
+  "directory": "D:/Edin/rendering/build",
+  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe  @CMakeFiles/main.dir/includes_CXX.rsp -g -std=c++17 -Wall -Wextra -Wpedantic -O2 -o CMakeFiles\\main.dir\\BVH.cpp.obj -c D:\\Edin\\rendering\\BVH.cpp",
+  "file": "D:/Edin/rendering/BVH.cpp",
+  "output": "CMakeFiles/main.dir/BVH.cpp.obj"
+}
+]

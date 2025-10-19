@@ -1,0 +1,177 @@
+import bpy
+import json
+from mathutils import Matrix, Vector, Euler
+
+# ---------- helpers ----------
+
+def _safe_vec(v, fallback=(0,0,1)):
+    try:
+        vec = Vector(v)
+        if vec.length == 0:
+            return Vector(fallback)
+        return vec
+    except Exception:
+        return Vector(fallback)
+
+def rotation_from_gaze_up(gaze, up):
+    """
+    Build a world rotation such that the object's local -Z points along `gaze`
+    and local +Y aligns with `up` as closely as possible (camera convention).
+    Returns a 3x3 rotation Matrix (world space).
+    """
+    g = _safe_vec(gaze, (0,0,-1)).normalized()
+    u = _safe_vec(up,   (0,1, 0)).normalized()
+
+    # If nearly colinear, pick a fallback up
+    if abs(g.dot(u)) > 0.999:
+        u = Vector((0,1,0)) if abs(g.dot(Vector((0,1,0)))) < 0.999 else Vector((1,0,0))
+
+    # Right-handed frame
+    x = g.cross(u)      # right
+    if x.length == 0:
+        # final safety
+        u = Vector((0,1,0))
+        x = g.cross(u)
+    x.normalize()
+    y = x.cross(g).normalized()  # corrected up
+
+    # For Blender cameras: local -Z is forward.
+    # Columns of the world rotation basis:
+    #   X = right, Y = up, Z = -forward
+    Rcols = (x, y, -g)
+    R = Matrix((Rcols[0], Rcols[1], Rcols[2])).transposed()  # columns->rows
+    return R
+
+def set_object_transform_world(obj, location, R_world3x3, scale_xyz=(1,1,1)):
+    loc = Vector(location)
+    S = Matrix.Diagonal(Vector(scale_xyz + (1.0,)))
+    R4 = R_world3x3.to_4x4()
+    T = Matrix.Translation(loc)
+    obj.matrix_world = T @ R4 @ S
+
+# ---------- makers ----------
+
+def make_camera(cam_dict):
+    cam_data = bpy.data.cameras.new(cam_dict.get("name", "Camera"))
+    cam_obj  = bpy.data.objects.new(cam_dict.get("name", "Camera"), cam_data)
+    bpy.context.collection.objects.link(cam_obj)
+
+    # lens & sensor
+    cam_data.lens = float(cam_dict.get("focal_length_mm", 50.0))
+    cam_data.sensor_width  = float(cam_dict.get("sensor_width_mm", 36.0))
+    cam_data.sensor_height = float(cam_dict.get("sensor_height_mm", 24.0))
+
+    # pose from gaze/up
+    gaze = cam_dict.get("gaze", (0,0,-1))
+    up   = cam_dict.get("up",   (0,1, 0))
+    R = rotation_from_gaze_up(gaze, up)
+    set_object_transform_world(cam_obj, cam_dict.get("location", (0,0,0)), R, (1,1,1))
+    return cam_obj
+
+def make_point_light(light_dict):
+    data = bpy.data.lights.new(light_dict.get("name","Point"), type='POINT')
+    obj  = bpy.data.objects.new(light_dict.get("name","Point"), data)
+    bpy.context.collection.objects.link(obj)
+    obj.location = Vector(light_dict.get("location",(0,0,0)))
+    data.energy = float(light_dict.get("radiant_intensity", 0.0))
+    return obj
+
+def make_sphere(sphere_dict):
+    name = sphere_dict.get("name", "Sphere")
+    radius = float(sphere_dict.get("radius", 1.0))
+    # Create a unit sphere (radius ~1) then scale
+    bpy.ops.mesh.primitive_uv_sphere_add(segments=32, ring_count=16, radius=1.0, enter_editmode=False)
+    obj = bpy.context.active_object
+    obj.name = name
+    obj.location = Vector(sphere_dict.get("location",(0,0,0)))
+    obj.scale = Vector((radius, radius, radius))
+    return obj
+
+def make_cube(cube_dict):
+    name = cube_dict.get("name", "Cube")
+    bpy.ops.mesh.primitive_cube_add(size=2.0, enter_editmode=False)  # default Blender cube ~2 units across
+    obj = bpy.context.active_object
+    obj.name = name
+
+    # rotation is Euler XYZ in radians
+    rot_euler = cube_dict.get("rotation_euler_xyz_radians", (0,0,0))
+    loc = cube_dict.get("translation", (0,0,0))
+    s  = float(cube_dict.get("scale_1d", 1.0))
+
+    # Build rotation from euler
+    R = Euler(rot_euler, 'XYZ').to_matrix()
+    set_object_transform_world(obj, loc, R, (s, s, s))
+    return obj
+
+def make_plane(plane_dict):
+    name = plane_dict.get("name", "Plane")
+    corners = plane_dict.get("corners", None)
+    if not corners or len(corners) < 4:
+        return None
+
+    verts = [Vector(c) for c in corners[:4]]
+    faces = [(0,1,2,3)]
+    mesh = bpy.data.meshes.new(name + "_mesh")
+    mesh.from_pydata(verts, [], faces)
+    mesh.update()
+    obj = bpy.data.objects.new(name, mesh)
+    bpy.context.collection.objects.link(obj)
+    return obj
+
+# ---------- main importer ----------
+
+def import_ascii_scene_json(filepath, clear_scene=False):
+    # Optional: clear current scene
+    if clear_scene:
+        bpy.ops.object.select_all(action='SELECT')
+        bpy.ops.object.delete(use_global=False)
+
+    with open(filepath, "r", encoding="utf-8") as f:
+        data = json.load(f)
+
+    scene_info = data.get("scene", {})
+    cams       = data.get("cameras", [])
+    lights     = data.get("point_lights", [])
+    spheres    = data.get("spheres", [])
+    cubes      = data.get("cubes", [])
+    planes     = data.get("planes", [])
+
+    # Scene metadata
+    scene = bpy.context.scene
+    if "frame" in scene_info:
+        scene.frame_set(int(scene_info["frame"]))
+    if "unit_scale_length" in scene_info:
+        scene.unit_settings.scale_length = float(scene_info["unit_scale_length"])
+
+    # Render resolution
+    film = None
+    if "cameras" in data and len(cams) > 0:
+        # If you want to adopt the first camera's film resolution to scene
+        film = cams[0].get("film_resolution")
+    if film:
+        scene.render.resolution_x = int(film.get("x", scene.render.resolution_x))
+        scene.render.resolution_y = int(film.get("y", scene.render.resolution_y))
+        scene.render.resolution_percentage = 100
+
+    # Build objects
+    created = {"cameras":[], "point_lights":[], "spheres":[], "cubes":[], "planes":[]}
+
+    for c in cams:
+        created["cameras"].append(make_camera(c))
+    for L in lights:
+        created["point_lights"].append(make_point_light(L))
+    for s in spheres:
+        created["spheres"].append(make_sphere(s))
+    for q in cubes:
+        created["cubes"].append(make_cube(q))
+#    for p in planes:
+#        plane_obj = make_plane(p)
+#        if plane_obj:
+#            created["planes"].append(plane_obj)
+
+    print(f"Imported: { {k: len(v) for k,v in created.items()} }")
+    return created
+
+# Example usage:
+# import_ascii_scene_json(bpy.path.abspath("//scene_export.json"), clear_scene=True)
+import_ascii_scene_json(bpy.path.abspath("//scene_export.json"), clear_scene=True)

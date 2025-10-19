@@ -1,0 +1,107 @@
+import bpy
+import json
+from mathutils import Vector, Matrix
+
+
+def camera_info(cam_obj, scene):
+    cam = cam_obj.data
+    loc = list(cam_obj.matrix_world.translation)
+    gaze_world = (cam_obj.matrix_world.to_3x3() @ Vector((0, 0, -1))).normalized()
+    up_world   = (cam_obj.matrix_world.to_3x3() @ Vector((0.0, 1.0,  0.0))).normalized()
+    focal_mm = float(cam.lens)
+    sensor_w_mm = float(cam.sensor_width)
+    sensor_h_mm = float(cam.sensor_height)
+    res_x = int(round(scene.render.resolution_x * scene.render.resolution_percentage / 100))
+    res_y = int(round(scene.render.resolution_y * scene.render.resolution_percentage / 100))
+    return {"name": cam_obj.name,
+            "location": loc,
+            "gaze": list(gaze_world),
+            "up": list(up_world).
+            "focal_length_mm": focal_mm,
+            "sensor_width_mm": sensor_w_mm,
+            "sensor_height_mm": sensor_h_mm,
+            "film_resolution": {"x": res_x, "y": res_y},}
+
+def point_light_info(light_obj):
+    light = light_obj.data
+    if light.type != 'POINT':return None
+    loc = list(light_obj.matrix_world.translation)
+    intensity = float(getattr(light, "energy", 0.0))
+    return {"name": light_obj.name,
+            "location": loc,
+            "radiant_intensity": intensity}
+
+def sphere_info(mesh_obj):
+    # Belows are calculating the radius of the sphere
+    mw = mesh_obj.matrix_world
+    verts = getattr(mesh_obj.data, "vertices", [])
+    if not verts: return max(mw.to_scale())
+    origin = mw.translation
+    dists = [(mw @ v.co - origin).length for v in verts]
+    radius = sum(dists) / len(dists)
+    # End of calculating the radius
+    return {"name": mesh_obj.name,
+            "location": list(mesh_obj.matrix_world.translation),
+            "radius": float(radius)}
+
+def cube_info(obj, note_list=None):
+    if note_list is None: note_list = []
+    loc = list(obj.matrix_world.translation)
+    rot = list(obj.matrix_world.to_euler('XYZ'))
+    sx, sy, sz = obj.matrix_world.to_scale()
+    if abs(sx - sy) < 1e-6 and abs(sx - sz) < 1e-6:
+        s1d = float(sx)
+    else:
+        s1d = float((sx + sy + sz) / 3.0)
+        note_list.append(f"Cube '{obj.name}' non-uniform scale ({sx:.3g},{sy:.3g},{sz:.3g}); exported average.")
+    return {"name": obj.name,
+            "translation": loc,
+            "rotation_euler_xyz_radians": rot,
+            "scale_1d": s1d,}
+
+def plane_info(obj):
+    mw = obj.matrix_world
+    verts = obj.data.vertices
+    corners = [list(mw @ v.co) for v in verts[:4]]
+    if len(corners) < 4:
+        # fallback to one face of the bounding box
+        bb = [mw @ Vector(c) for c in obj.bound_box]  # 8 points
+        corners = [list(bb[i]) for i in (0, 1, 2, 3)]
+    return {"name": obj.name,
+            "corners": corners,}
+            
+def export_ascii_scene_json(filepath, only_selected=False):
+    scene = bpy.context.scene
+    objects = bpy.context.selected_objects if only_selected else scene.objects
+
+    out = {
+        "scene": {
+            "frame": scene.frame_current,
+            "unit_scale_length": scene.unit_settings.scale_length,
+        },
+        "cameras": [],
+        "point_lights": [],
+        "spheres": [],
+        "cubes": [],
+        "planes": [],
+        "notes": [],
+    }
+    for obj in objects:
+        if obj.type == 'CAMERA':
+            out["cameras"].append(camera_info(obj, scene))
+        if obj.type == 'LIGHT' and obj.data.type == 'POINT':
+            out["point_lights"].append(point_light_info(obj))
+        if obj.type == 'MESH':
+            name_l = (obj.name + " " + obj.data.name).lower()
+            if "sphere" in name_l:
+                out["spheres"].append(sphere_info(obj))
+            elif "cube" in name_l:
+                out["cubes"].append(cube_info(obj, out["notes"]))
+            elif "plane" in name_l:
+                out["planes"].append(plane_info(obj))
+    with open(filepath, "w", encoding="utf-8") as f:
+        json.dump(out, f, indent=2)
+    print(f"Exported to {filepath}")
+
+export_ascii_scene_json(bpy.path.abspath("//scene_export.json"), only_selected=False)
+
