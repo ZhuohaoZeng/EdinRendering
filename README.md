@@ -39,12 +39,9 @@ Features include pinhole camera, Whitted recursion (reflection/refraction), BVH 
 ---
 
 ## Gallery
-
-> Replace these with your own renders.
-
 ![BlenderOrginial](Output/Blender.png)  
-![Glossy Metals](Output/Normal.png)  
-![Glass](Output/WhittyStyle.png)
+![Normal](Output/Normal.png)  
+![Whitty](Output/WhittyStyle.png)
 
 \* Caustics are approximated via Whitted recursion; not physically accurate.
 
