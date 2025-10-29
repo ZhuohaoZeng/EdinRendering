@@ -61,3 +61,8 @@ Features include pinhole camera, Whitted recursion (reflection/refraction), BVH 
 # From repo root
 cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
 cmake --build build --config Release --parallel
+```
+
+<!--
+## Project structure📂:
+-->
