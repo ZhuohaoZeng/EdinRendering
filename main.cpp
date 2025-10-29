@@ -16,7 +16,7 @@ int main() {
     rt::camera mainCamera(scene.cameras[0]);
 
     auto t0 = clock::now();
-    objects.buildBVH();
+    //objects.buildBVH();
     mainCamera.render(objects, objects.pointLights);
     auto t1 = clock::now();
 

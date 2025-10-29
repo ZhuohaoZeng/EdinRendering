@@ -35,7 +35,8 @@ public:
                     color pixelColor(0, 0, 0);
                     for (int sample = 0; sample < samples_per_pixel; sample++) {
                         ray r = get_ray(i, j);
-                        pixelColor += ray_color(r, max_depth, objects, pl);
+                        pixelColor += ray_color_normal(r, objects);
+                        //pixelColor += ray_color(r, max_depth, objects, pl);
                     }
                     writeColor(std::cout, pixel_samples_scale * pixelColor);
                 }
