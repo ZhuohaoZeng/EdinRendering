@@ -1,4 +1,4 @@
-# Ray Tracer (C++ • Whitted-Style)
+# Ray Tracer (C++/Blender • Whitted-Style)
 
 A from-scratch CPU ray tracer written in modern C++.
 
