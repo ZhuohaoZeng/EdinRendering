@@ -172,6 +172,7 @@ CMakeFiles/main.dir/main.cpp.obj: D:\Edin\rendering\main.cpp \
  C:/msys64/ucrt64/include/c++/14.2.0/bits/stl_tempbuf.h \
  C:/msys64/ucrt64/include/c++/14.2.0/pstl/glue_algorithm_defs.h \
  C:/msys64/ucrt64/include/c++/14.2.0/pstl/execution_defs.h \
+ D:\Edin\rendering\utility.h \
  C:/Dev/vcpkg/installed/x64-windows/include/nlohmann/json.hpp \
  C:/msys64/ucrt64/include/c++/14.2.0/functional \
  C:/msys64/ucrt64/include/c++/14.2.0/bits/std_function.h \
@@ -297,9 +298,10 @@ CMakeFiles/main.dir/main.cpp.obj: D:\Edin\rendering\main.cpp \
  C:/Dev/vcpkg/installed/x64-windows/include/nlohmann/detail/macro_unscope.hpp \
  C:/Dev/vcpkg/installed/x64-windows/include/nlohmann/thirdparty/hedley/hedley_undef.hpp \
  D:\Edin\rendering\scene.h D:\Edin\rendering\ray.h \
- D:\Edin\rendering\camera.h D:\Edin\rendering\hittable.h \
- D:\Edin\rendering\interval.h D:\Edin\rendering\bounds3.h \
- D:\Edin\rendering\color.h D:\Edin\rendering\mat3.h \
- D:\Edin\rendering\hittable_list.h D:\Edin\rendering\sphere.h \
- D:\Edin\rendering\plane.h D:\Edin\rendering\cube.h \
- D:\Edin\rendering\BVH.h
+ D:\Edin\rendering\camera.h D:\Edin\rendering\color.h \
+ D:\Edin\rendering\interval.h D:\Edin\rendering\mat3.h \
+ D:\Edin\rendering\material.h D:\Edin\rendering\hittable.h \
+ D:\Edin\rendering\bounds3.h D:\Edin\rendering\texture.h \
+ D:\Edin\rendering\lighting.h D:\Edin\rendering\hittable_list.h \
+ D:\Edin\rendering\sphere.h D:\Edin\rendering\plane.h \
+ D:\Edin\rendering\cube.h D:\Edin\rendering\BVH.h

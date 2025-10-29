@@ -167,6 +167,7 @@ CMakeFiles/main.dir/JSONReader.cpp.obj: D:\Edin\rendering\JSONReader.cpp \
  C:/msys64/ucrt64/include/c++/14.2.0/bits/stl_tempbuf.h \
  C:/msys64/ucrt64/include/c++/14.2.0/pstl/glue_algorithm_defs.h \
  C:/msys64/ucrt64/include/c++/14.2.0/pstl/execution_defs.h \
+ D:\Edin\rendering\utility.h \
  C:/Dev/vcpkg/installed/x64-windows/include/nlohmann/json.hpp \
  C:/msys64/ucrt64/include/c++/14.2.0/functional \
  C:/msys64/ucrt64/include/c++/14.2.0/bits/std_function.h \

@@ -163,8 +163,8 @@ CMakeFiles/main.dir/BVH.cpp.obj: D:\Edin\rendering\BVH.cpp \
  C:/msys64/ucrt64/include/c++/14.2.0/bits/stl_tempbuf.h \
  C:/msys64/ucrt64/include/c++/14.2.0/pstl/glue_algorithm_defs.h \
  C:/msys64/ucrt64/include/c++/14.2.0/pstl/execution_defs.h \
- D:\Edin\rendering\interval.h D:\Edin\rendering\bounds3.h \
- C:/msys64/ucrt64/include/c++/14.2.0/memory \
+ D:\Edin\rendering\utility.h D:\Edin\rendering\interval.h \
+ D:\Edin\rendering\bounds3.h C:/msys64/ucrt64/include/c++/14.2.0/memory \
  C:/msys64/ucrt64/include/c++/14.2.0/bits/stl_uninitialized.h \
  C:/msys64/ucrt64/include/c++/14.2.0/bits/stl_raw_storage_iter.h \
  C:/msys64/ucrt64/include/c++/14.2.0/bits/align.h \

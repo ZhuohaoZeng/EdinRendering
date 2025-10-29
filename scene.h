@@ -28,10 +28,10 @@ struct Sphere {
 };
 
 struct Triangle {
+    std::string name;
     point3 v0, v1, v2;
     vec3   e1, e2;
     vec3   n;
-    int    material_id = 0;
 };
 
 struct Cube {
@@ -46,6 +46,9 @@ struct Plane {
     // 4 corners, each corner is [x,y,z]
     std::vector<point3> corners{};
     std::vector<Triangle> tris;
+    std::string texture;
+    vec2 uv_scale{};
+    vec2 uv_offset{};
 };
 
 struct SceneMeta {

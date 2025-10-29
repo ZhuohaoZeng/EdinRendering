@@ -1,17 +1,21 @@
 #pragma once
 #include "vec3.h"
-
+#include "interval.h"
 using color = vec3;
 
 inline void writeColor(std::ostream& out, const color& c) {
-    auto to_byte = [](double v) -> unsigned char {
-        v = std::clamp(v, 0.0, 1.0);
-        return static_cast<unsigned char>(std::lround(v * 255.0));
-    };
-    unsigned char rgb[3] = { to_byte(c.x()), to_byte(c.y()), to_byte(c.z()) };
-    out << static_cast<int>(rgb[0]) << ' '
-        << static_cast<int>(rgb[1]) << ' '
-        << static_cast<int>(rgb[2]) << '\n';
+    auto r = c.x();
+    auto g = c.y();
+    auto b = c.z();
+
+    // Translate the [0,1] component values to the byte range [0,255].
+    static const interval intensity(0.000, 0.999);
+    int rbyte = int(256 * intensity.clamp(r));
+    int gbyte = int(256 * intensity.clamp(g));
+    int bbyte = int(256 * intensity.clamp(b));
+
+    // Write out the pixel color components.
+    out << rbyte << ' ' << gbyte << ' ' << bbyte << '\n';
 }
 
 class Image {

@@ -101,6 +101,11 @@ void JSONReader::registerDefaultHandlers()
             if (pj.contains("corners") && pj["corners"].is_array() && pj["corners"].size()==4) {
                 for (int i=0;i<4;++i) p.corners[i] = makeVec3(pj["corners"][i]);
             }
+            if (pj.contains("texture")) p.texture = pj["texture"].get<std::string>();
+            if (pj.contains("uv_scale") && pj["uv_scale"].is_array() && pj["uv_scale"].size()>=2)
+                p.uv_scale = vec2(pj["uv_scale"][0].get<double>(), pj["uv_scale"][1].get<double>());
+            if (pj.contains("uv_offset") && pj["uv_offset"].is_array() && pj["uv_offset"].size()>=2)
+                p.uv_offset = vec2(pj["uv_offset"][0].get<double>(), pj["uv_offset"][1].get<double>());
             scene.planes.push_back(std::move(p));
         }
     });

@@ -1,0 +1,81 @@
+import bpy
+import math
+from mathutils import Vector
+
+# ---- settings ----
+RAYS_FILE = r"D:\Edin\rendering\rays.txt"   # <-- path to your file
+r_cyl  = 0.02   # cylinder radius
+h_cone = 0.12   # cone height
+r_cone = 0.05   # cone base radius
+make_collection = "Rays"
+
+# ---- helpers ----
+def add_cylinder(origin, direction, length, radius, name):
+    """
+    Adds a cylinder aligned with 'direction' starting at 'origin' with given 'length'.
+    Cylinder's local +Z is its axis, so we place it halfway and rotate Z->direction.
+    """
+    dir_norm = direction.normalized()
+    mid = origin + 0.5 * length * dir_norm
+
+    # orientation: local +Z to world 'dir_norm'
+    rot = dir_norm.to_track_quat('Z', 'Y').to_euler()
+
+    bpy.ops.mesh.primitive_cylinder_add(
+        radius=radius, depth=length, location=mid, rotation=rot
+    )
+    obj = bpy.context.active_object
+    obj.name = name
+    return obj
+
+def add_cone(tip, direction, height, radius, name):
+    """
+    Adds a cone whose tip is at 'tip' and whose axis points along 'direction'.
+    Blender's cone is centered at its middle; we'll place it along the axis so the tip is at the ray end.
+    """
+    dir_norm = direction.normalized()
+    base_center = tip - 0.5 * height * dir_norm  # since depth is height, middle is half back from tip
+    rot = dir_norm.to_track_quat('Z', 'Y').to_euler()
+
+    bpy.ops.mesh.primitive_cone_add(
+        radius1=radius, radius2=0.0, depth=height, location=base_center, rotation=rot
+    )
+    obj = bpy.context.active_object
+    obj.name = name
+    return obj
+
+# ---- create/clear a collection for rays ----
+coll = bpy.data.collections.get(make_collection)
+if coll is None:
+    coll = bpy.data.collections.new(make_collection)
+    bpy.context.scene.collection.children.link(coll)
+
+# Optional: clear old rays
+for obj in list(coll.objects):
+    bpy.data.objects.remove(obj, do_unlink=True)
+
+# ---- read rays and create geometry ----
+with open(RAYS_FILE, 'r') as f:
+    lines = [ln.strip() for ln in f if ln.strip() and not ln.startswith('#')]
+
+for idx, ln in enumerate(lines):
+    parts = ln.split()
+    if len(parts) != 7:
+        print(f"Skipping malformed line {idx+1}: {ln}")
+        continue
+
+    ox, oy, oz, dx, dy, dz, t = map(float, parts)
+    o = Vector((ox, oy, oz))
+    d = Vector((dx, dy, dz))
+    length = float(t)
+
+    cyl = add_cylinder(o, d, length, r_cyl, f"ray_{idx:03d}")
+    cone = add_cone(o + d.normalized()*length, d, h_cone, r_cone, f"arrow_{idx:03d}")
+
+    # move into our collection
+    for obj in (cyl, cone):
+        for c in obj.users_collection:
+            c.objects.unlink(obj)
+        coll.objects.link(obj)
+
+print(f"Imported {len(lines)} rays into collection '{make_collection}'.")

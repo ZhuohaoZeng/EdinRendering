@@ -1,0 +1,101 @@
+Date : 2025-10-21 22:42:52
+Directory : d:\Edin\rendering
+Total : 54 files,  13260 codes, 232 comments, 681 blanks, all 14173 lines
+
+Languages
++-------------+------------+------------+------------+------------+------------+
+| language    | files      | code       | comment    | blank      | total      |
++-------------+------------+------------+------------+------------+------------+
+| YAML        |          1 |      7,602 |          2 |         14 |      7,618 |
+| JSON        |         12 |      2,498 |          0 |          8 |      2,506 |
+| C++         |         28 |      2,375 |        177 |        442 |      2,994 |
+| CMake Cache |          1 |        377 |          0 |         92 |        469 |
+| CMake       |          9 |        273 |          0 |         63 |        336 |
+| Makefile    |          1 |        123 |         53 |         59 |        235 |
+| Markdown    |          1 |         10 |          0 |          2 |         12 |
+| TypeScript  |          1 |          2 |          0 |          1 |          3 |
++-------------+------------+------------+------------+------------+------------+
+
+Directories
++-----------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                    | files      | code       | comment    | blank      | total      |
++-----------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                       |         54 |     13,260 |        232 |        681 |     14,173 |
+| . (Files)                                                                               |         30 |      1,796 |        114 |        290 |      2,200 |
+| build                                                                                   |         23 |     11,334 |        118 |        391 |     11,843 |
+| build (Files)                                                                           |          4 |        574 |         53 |        159 |        786 |
+| build\.cmake                                                                            |          8 |      2,215 |          0 |          7 |      2,222 |
+| build\.cmake\api                                                                        |          8 |      2,215 |          0 |          7 |      2,222 |
+| build\.cmake\api\v1                                                                     |          8 |      2,215 |          0 |          7 |      2,222 |
+| build\.cmake\api\v1\query                                                               |          1 |          1 |          0 |          0 |          1 |
+| build\.cmake\api\v1\query\client-vscode                                                 |          1 |          1 |          0 |          0 |          1 |
+| build\.cmake\api\v1\reply                                                               |          7 |      2,214 |          0 |          7 |      2,221 |
+| build\CMakeFiles                                                                        |         11 |      8,545 |         65 |        225 |      8,835 |
+| build\CMakeFiles (Files)                                                                |          4 |      7,678 |          2 |         26 |      7,706 |
+| build\CMakeFiles\4.1.1                                                                  |          4 |        830 |         63 |        189 |      1,082 |
+| build\CMakeFiles\4.1.1 (Files)                                                          |          3 |        101 |          0 |         31 |        132 |
+| build\CMakeFiles\4.1.1\CompilerIdCXX                                                    |          1 |        729 |         63 |        158 |        950 |
+| build\CMakeFiles\main.dir                                                               |          3 |         37 |          0 |         10 |         47 |
+| scene_export2                                                                           |          1 |        130 |          0 |          0 |        130 |
++-----------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++-----------------------------------------------------------------------------------------+-------------+------------+------------+------------+------------+
+| filename                                                                                | language    | code       | comment    | blank      | total      |
++-----------------------------------------------------------------------------------------+-------------+------------+------------+------------+------------+
+| d:\Edin\rendering\BVH.cpp                                                               | C++         |         95 |          9 |         17 |        121 |
+| d:\Edin\rendering\BVH.h                                                                 | C++         |         36 |          0 |          6 |         42 |
+| d:\Edin\rendering\CMakeLists.txt                                                        | CMake       |         14 |          0 |          4 |         18 |
+| d:\Edin\rendering\JSONReader.cpp                                                        | C++         |         99 |          2 |         12 |        113 |
+| d:\Edin\rendering\JSONReader.h                                                          | C++         |         20 |          0 |          3 |         23 |
+| d:\Edin\rendering\README.md                                                             | Markdown    |         10 |          0 |          2 |         12 |
+| d:\Edin\rendering\bounds3.h                                                             | C++         |        104 |          2 |         16 |        122 |
+| d:\Edin\rendering\build\.cmake\api\v1\query\client-vscode\query.json                    | JSON        |          1 |          0 |          0 |          1 |
+| d:\Edin\rendering\build\.cmake\api\v1\reply\cache-v2-54102041c0c1d3a286a3.json          | JSON        |      1,555 |          0 |          1 |      1,556 |
+| d:\Edin\rendering\build\.cmake\api\v1\reply\cmakeFiles-v1-5b4bcc2bcda59561872b.json     | JSON        |        187 |          0 |          1 |        188 |
+| d:\Edin\rendering\build\.cmake\api\v1\reply\codemodel-v2-21f2d7fb9c9dbec8ac03.json      | JSON        |         60 |          0 |          1 |         61 |
+| d:\Edin\rendering\build\.cmake\api\v1\reply\directory-.-Debug-d0094a50bb2071803777.json | JSON        |         14 |          0 |          1 |         15 |
+| d:\Edin\rendering\build\.cmake\api\v1\reply\index-2025-10-21T11-08-48-0602.json         | JSON        |        132 |          0 |          1 |        133 |
+| d:\Edin\rendering\build\.cmake\api\v1\reply\target-main-Debug-efe08ba2861795bba9d3.json | JSON        |        176 |          0 |          1 |        177 |
+| d:\Edin\rendering\build\.cmake\api\v1\reply\toolchains-v1-e9d73b045407610d0556.json     | JSON        |         90 |          0 |          1 |         91 |
+| d:\Edin\rendering\build\CMakeCache.txt                                                  | CMake Cache |        377 |          0 |         92 |        469 |
+| d:\Edin\rendering\build\CMakeFiles\4.1.1\CMakeCXXCompiler.cmake                         | CMake       |         84 |          0 |         25 |        109 |
+| d:\Edin\rendering\build\CMakeFiles\4.1.1\CMakeRCCompiler.cmake                          | CMake       |          6 |          0 |          1 |          7 |
+| d:\Edin\rendering\build\CMakeFiles\4.1.1\CMakeSystem.cmake                              | CMake       |         11 |          0 |          5 |         16 |
+| d:\Edin\rendering\build\CMakeFiles\4.1.1\CompilerIdCXX\CMakeCXXCompilerId.cpp           | C++         |        729 |         63 |        158 |        950 |
+| d:\Edin\rendering\build\CMakeFiles\CMakeConfigureLog.yaml                               | YAML        |      7,602 |          2 |         14 |      7,618 |
+| d:\Edin\rendering\build\CMakeFiles\CMakeDirectoryInformation.cmake                      | CMake       |         12 |          0 |          5 |         17 |
+| d:\Edin\rendering\build\CMakeFiles\InstallScripts.json                                  | JSON        |          7 |          0 |          1 |          8 |
+| d:\Edin\rendering\build\CMakeFiles\Makefile.cmake                                       | CMake       |         57 |          0 |          6 |         63 |
+| d:\Edin\rendering\build\CMakeFiles\main.dir\DependInfo.cmake                            | CMake       |         19 |          0 |          7 |         26 |
+| d:\Edin\rendering\build\CMakeFiles\main.dir\cmake_clean.cmake                           | CMake       |         16 |          0 |          2 |         18 |
+| d:\Edin\rendering\build\CMakeFiles\main.dir\compiler_depend.ts                          | TypeScript  |          2 |          0 |          1 |          3 |
+| d:\Edin\rendering\build\Makefile                                                        | Makefile    |        123 |         53 |         59 |        235 |
+| d:\Edin\rendering\build\cmake_install.cmake                                             | CMake       |         54 |          0 |          8 |         62 |
+| d:\Edin\rendering\build\compile_commands.json                                           | JSON        |         20 |          0 |          0 |         20 |
+| d:\Edin\rendering\camera.h                                                              | C++         |        156 |         16 |         27 |        199 |
+| d:\Edin\rendering\color.h                                                               | C++         |         31 |          2 |          8 |         41 |
+| d:\Edin\rendering\cube.h                                                                | C++         |         71 |          2 |          9 |         82 |
+| d:\Edin\rendering\geometry.h                                                            | C++         |         50 |          1 |         13 |         64 |
+| d:\Edin\rendering\hittable.h                                                            | C++         |         26 |          1 |          6 |         33 |
+| d:\Edin\rendering\hittable_list.h                                                       | C++         |         85 |          6 |         12 |        103 |
+| d:\Edin\rendering\interval.h                                                            | C++         |         26 |          0 |         10 |         36 |
+| d:\Edin\rendering\lighting.h                                                            | C++         |         57 |          2 |         11 |         70 |
+| d:\Edin\rendering\main.cpp                                                              | C++         |         26 |          1 |          4 |         31 |
+| d:\Edin\rendering\mat3.h                                                                | C++         |        104 |         10 |         18 |        132 |
+| d:\Edin\rendering\material.h                                                            | C++         |        103 |          8 |         20 |        131 |
+| d:\Edin\rendering\model.cpp                                                             | C++         |         77 |         10 |          2 |         89 |
+| d:\Edin\rendering\model.h                                                               | C++         |         29 |          0 |          3 |         32 |
+| d:\Edin\rendering\plane.h                                                               | C++         |         65 |          4 |         11 |         80 |
+| d:\Edin\rendering\ray.h                                                                 | C++         |         15 |          0 |          3 |         18 |
+| d:\Edin\rendering\scene.h                                                               | C++         |         64 |          6 |         10 |         80 |
+| d:\Edin\rendering\scene_export.json                                                     | JSON        |        126 |          0 |          0 |        126 |
+| d:\Edin\rendering\scene_export2\scene_export.json                                       | JSON        |        130 |          0 |          0 |        130 |
+| d:\Edin\rendering\sphere.h                                                              | C++         |         41 |          0 |          9 |         50 |
+| d:\Edin\rendering\texture.h                                                             | C++         |         24 |          0 |          5 |         29 |
+| d:\Edin\rendering\tgaimage.h                                                            | C++         |         44 |          0 |          5 |         49 |
+| d:\Edin\rendering\triangle.h                                                            | C++         |         41 |          1 |          7 |         49 |
+| d:\Edin\rendering\utility.h                                                             | C++         |         14 |          2 |          3 |         19 |
+| d:\Edin\rendering\vec3.h                                                                | C++         |        143 |         29 |         34 |        206 |
+| Total                                                                                   |             |     13,260 |        232 |        681 |     14,173 |
++-----------------------------------------------------------------------------------------+-------------+------------+------------+------------+------------+

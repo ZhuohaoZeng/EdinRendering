@@ -5,12 +5,29 @@ namespace rt {
 class plane : public hittable {
 private:
     point3 v0, v1, v2, v3;
+    std::shared_ptr<material> mat;
+
 public:
-    plane(point3 a, point3 b, point3 c, point3 d) : v0(a), v1(b), v2(c), v3(d) {}
+    plane(point3 a, point3 b, point3 c, point3 d, std::shared_ptr<material> mat) : v0(a), v1(b), v2(c), v3(d), mat(mat) {}
+    const point3& a() const { return v0; }
+    const point3& b() const { return v1; }
+    const point3& c() const { return v2; }
+    const point3& d() const { return v3; }
     bounds3 getBounds() const override
     {
-        //TODO
-        return bounds3();
+        double min_x = std::min(std::min(v0.x(), v1.x()), std::min(v2.x(), v3.x()));
+        double min_y = std::min(std::min(v0.y(), v1.y()), std::min(v2.y(), v3.y()));
+        double min_z = std::min(std::min(v0.z(), v1.z()), std::min(v2.z(), v3.z()));
+        double max_x = std::max(std::max(v0.x(), v1.x()), std::max(v2.x(), v3.x()));
+        double max_y = std::max(std::max(v0.y(), v1.y()), std::max(v2.y(), v3.y()));
+        double max_z = std::max(std::max(v0.z(), v1.z()), std::max(v2.z(), v3.z()));
+
+        const double eps = 1e-6;
+        if (max_x - min_x < eps) { min_x -= eps; max_x += eps; }
+        if (max_y - min_y < eps) { min_y -= eps; max_y += eps; }
+        if (max_z - min_z < eps) { min_z -= eps; max_z += eps; }
+
+        return bounds3(point3{min_x, min_y, min_z}, point3{max_x, max_y, max_z});
     }
 
     bool hit(const ray& r, interval ray_t, hit_record& rec) const override
@@ -20,6 +37,7 @@ public:
         bool h1 = hit_tri(v0, v2, v3, r, ray_t, rec1);
 
         if (!h0 && !h1) return false;
+        rec0.mat = mat, rec1.mat = mat;
         // pick closer valid hit
         if (h0 && (!h1 || rec0.t < rec1.t)) 
         { rec = rec0; return true; }

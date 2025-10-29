@@ -6,9 +6,11 @@ class sphere : public hittable {
 private:
 point3 center{};
 double radius;
+std::shared_ptr<material> mat;
 
 public: 
-    sphere(const point3& center, double radius) : center(center), radius(std::fmax(0,radius)) {}
+    sphere(const point3& center, double radius, std::shared_ptr<material> mat) 
+    : center(center), radius(std::fmax(0,radius)), mat(mat){}
 
     bounds3 getBounds() const override 
     {
@@ -37,10 +39,12 @@ public:
 
         rec.t = t;
         rec.p = r.at(t);
-
+        rec.mat = mat;
         const vec3 outward = (rec.p - center) / radius;
         rec.set_face_normal(r, outward);
         return true;
     }
 };
+
+
 }
