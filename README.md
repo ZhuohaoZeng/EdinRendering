@@ -1,4 +1,3 @@
-10/19/2025: 
 Module 1: 
 Blender exporter implemented
 Camera space transformations implemented
