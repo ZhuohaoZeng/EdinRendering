@@ -9,4 +9,5 @@ Ray intersection implemented
 BVH Acceration implemented
 
 Module 3:
-Whitted Style Ray Tracing Work in progress
+Whitted-style raytracing implemented
+Antialiasing implemented
